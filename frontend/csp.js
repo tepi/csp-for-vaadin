@@ -117,3 +117,7 @@ functions.set("$0,$1,$2,$3,return $0.$connector.set($1,$2,$3)",
     function($0,$1,$2,$3) {return $0.$connector.set($1,$2,$3)});
 functions.set("$0,$1,$2,return $0.$connector.confirm($1,$2)",
     function($0,$1,$2) {return $0.$connector.confirm($1,$2)});
+functions.set("$0,window.Vaadin.Flow.selectConnector.initLazy($0)",
+    function($0) {window.Vaadin.Flow.selectConnector.initLazy($0)});
+functions.set("$0,$1,$2,return $0.updateConfiguration($1,$2)",
+    function($0,$1,$2) {return $0.updateConfiguration($1,$2)});
