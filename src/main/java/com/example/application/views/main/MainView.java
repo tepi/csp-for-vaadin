@@ -2,7 +2,11 @@ package com.example.application.views.main;
 
 import java.util.Optional;
 
+import com.example.application.views.dashboard.DashboardView;
+import com.example.application.views.datagrid.DataGridView;
+import com.example.application.views.feed.FeedView;
 import com.example.application.views.helloworld.HelloWorldView;
+import com.example.application.views.masterdetail.MasterDetailView;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
@@ -79,7 +83,13 @@ public class MainView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        return new Tab[]{createTab("Hello World", HelloWorldView.class)};
+        return new Tab[]{
+                createTab("Hello World", HelloWorldView.class),
+                createTab("DashBoard", DashboardView.class),
+                createTab("DataGrid", DataGridView.class),
+                createTab("Feed", FeedView.class),
+                createTab("MasterDetail", MasterDetailView.class)
+        };
     }
 
     private static Tab createTab(String text, Class<? extends Component> navigationTarget) {

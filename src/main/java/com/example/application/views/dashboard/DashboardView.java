@@ -2,6 +2,7 @@ package com.example.application.views.dashboard;
 
 
 import com.example.application.views.dashboard.ServiceHealth.Status;
+import com.example.application.views.main.MainView;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.board.Board;
@@ -33,7 +34,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 
 @PageTitle("Dashboard")
 @Menu(icon = "line-awesome/svg/chart-area-solid.svg", order = 0)
-@Route(value = "dashboard")
+@Route(value = "dashboard", layout = MainView.class)
 public class DashboardView extends Main {
 
     public DashboardView() {

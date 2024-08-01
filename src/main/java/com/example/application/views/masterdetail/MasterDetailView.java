@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.example.application.data.SamplePerson;
 import com.example.application.services.SamplePersonService;
+import com.example.application.views.main.MainView;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
@@ -36,7 +37,7 @@ import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
 
 @PageTitle("Master-Detail")
 @Menu(icon = "line-awesome/svg/columns-solid.svg", order = 3)
-@Route(value = "master-detail/:samplePersonID?/:action?(edit)")
+@Route(value = "master-detail/:samplePersonID?/:action?(edit)", layout = MainView.class)
 @Uses(Icon.class)
 public class MasterDetailView extends Div implements BeforeEnterObserver {
 

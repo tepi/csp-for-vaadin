@@ -3,6 +3,8 @@ package com.example.application.views.feed;
 import java.util.Arrays;
 import java.util.List;
 
+import com.example.application.views.main.MainView;
+
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
@@ -20,7 +22,7 @@ import com.vaadin.flow.router.Route;
 
 @PageTitle("Feed")
 @Menu(icon = "line-awesome/svg/list-solid.svg", order = 1)
-@Route(value = "feed")
+@Route(value = "feed", layout = MainView.class)
 public class FeedView extends Div implements AfterNavigationObserver {
 
     Grid<Person> grid = new Grid<>();

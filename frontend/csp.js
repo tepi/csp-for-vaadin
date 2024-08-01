@@ -15,6 +15,8 @@ window.Function = function(...args) {
     return function (chunk) {return window.Vaadin.Flow.loadOnDemand(chunk);};
   }
 
+  
+
   // In "training" mode, log expression to add to the map
   const code = args[args.length - 1];
   // Ignore the stats gatherer which isn't used in production mode
@@ -79,5 +81,39 @@ functions.set("$0,$1,return (async function() { this.renderer = (root) => {  if 
     function($0,$1) {return (async function() { this.renderer = (root) => {  if (this.text) {    root.textContent = this.text;  } else {    Vaadin.FlowComponentHost.setChildNodes($0, this.virtualChildNodeIds, root)  }}}).apply($1)});
 functions.set("$0,return $0.requestContentUpdate()",
     function($0) {return $0.requestContentUpdate()});
-functions.set("binder,return function ($0){ return binder.apply(this,arguments); }",
-    function(binder) {return function ($0){ return binder.apply(this,arguments); }});
+functions.set("$0,if($0.$connector) $0.$connector.reset();",
+    function($0) {if($0.$connector) $0.$connector.reset();});
+functions.set("$0,$1,$2,$3,$4,$5,return (async function() { window.Vaadin.setLitRenderer(this, $0, $1, $2, $3, $4)}).apply($5)",
+    function($0,$1,$2,$3,$4,$5) {return (async function() { window.Vaadin.setLitRenderer(this, $0, $1, $2, $3, $4)}).apply($5)});
+functions.set("$0,$1,return (async function() { if (this.$connector) { this.$connector.setSelectionMode($0) }}).apply($1)",
+    function($0,$1) {return (async function() { if (this.$connector) { this.$connector.setSelectionMode($0) }}).apply($1)});
+functions.set("$0,$1,return $0.$connector.updateSize($1)",
+    function($0,$1) {return $0.$connector.updateSize($1)});
+functions.set("$0,$1,$2,return $0.$connector.set($1,$2)",
+    function($0,$1,$2) {return $0.$connector.set($1,$2)});
+functions.set("$0,$1,return $0.$connector.confirm($1)",
+    function($0,$1) {return $0.$connector.confirm($1)});
+functions.set("$0,$1,$2,return (async function() { this.$connector.setFooterRenderer($0, { content: $1 })}).apply($2)",
+    function($0,$1,$2) {return (async function() { this.$connector.setFooterRenderer($0, { content: $1 })}).apply($2)});
+functions.set("$0,$1,$2,$3,$4,return (async function() { this.$connector.setHeaderRenderer($0, { content: $1, showSorter: $2, sorterPath: $3 })}).apply($4)",
+    function($0,$1,$2,$3,$4) {return (async function() { this.$connector.setHeaderRenderer($0, { content: $1, showSorter: $2, sorterPath: $3 })}).apply($4)});
+functions.set("$0,window.Vaadin.Flow.datepickerConnector.initLazy($0)",
+    function($0) {window.Vaadin.Flow.datepickerConnector.initLazy($0)});
+functions.set("$0,return (async function() { window.Vaadin.Flow.comboBoxConnector.initLazy(this)}).apply($0)",
+    function($0) {return (async function() { window.Vaadin.Flow.comboBoxConnector.initLazy(this)}).apply($0)});
+functions.set("$0,window.Vaadin.Flow.gridProConnector.patchEditModeRenderer($0)",
+    function($0) {window.Vaadin.Flow.gridProConnector.patchEditModeRenderer($0)});
+functions.set("$0,$1,return (async function() { window.Vaadin.Flow.gridProConnector.initCellEditableProvider($0)}).apply($1)",
+    function($0,$1) {return (async function() { window.Vaadin.Flow.gridProConnector.initCellEditableProvider($0)}).apply($1)});
+functions.set("$0,window.Vaadin.Flow.gridConnector.initLazy($0)",
+    function($0) {window.Vaadin.Flow.gridConnector.initLazy($0)});
+functions.set("$0,return (async function() { if (this.$connector) { this.$connector.reset() }}).apply($0)",
+    function($0) {return (async function() { if (this.$connector) { this.$connector.reset() }}).apply($0)});
+functions.set("$0,$1,return (async function() { if (this.$connector) { this.$connector.setSorterDirections($0) }}).apply($1)",
+    function($0,$1) {return (async function() { if (this.$connector) { this.$connector.setSorterDirections($0) }}).apply($1)});
+functions.set("$0,$1,$2,return $0.$connector.updateI18n($1,$2)",
+    function($0,$1,$2) {return $0.$connector.updateI18n($1,$2)});
+functions.set("$0,$1,$2,$3,return $0.$connector.set($1,$2,$3)",
+    function($0,$1,$2,$3) {return $0.$connector.set($1,$2,$3)});
+functions.set("$0,$1,$2,return $0.$connector.confirm($1,$2)",
+    function($0,$1,$2) {return $0.$connector.confirm($1,$2)});

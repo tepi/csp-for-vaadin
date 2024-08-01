@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import com.example.application.views.main.MainView;
 import org.apache.commons.lang3.StringUtils;
 
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -33,7 +34,7 @@ import com.vaadin.flow.router.Route;
 
 @PageTitle("Data Grid")
 @Menu(icon = "line-awesome/svg/th-solid.svg", order = 2)
-@Route(value = "data-grid")
+@Route(value = "data-grid", layout = MainView.class)
 public class DataGridView extends Div {
 
     private GridPro<Client> grid;
