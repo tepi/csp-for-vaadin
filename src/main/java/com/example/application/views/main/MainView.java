@@ -2,35 +2,29 @@ package com.example.application.views.main;
 
 import java.util.Optional;
 
+import com.example.application.views.helloworld.HelloWorldView;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
-import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.PageTitle;
-import com.example.application.views.main.MainView;
-import com.example.application.views.helloworld.HelloWorldView;
+import com.vaadin.flow.router.RouterLink;
 
 /**
  * The main view is a top-level placeholder for other views.
  */
-// PWA disabled since the service worker script would need special handling
-// @PWA(name = "CSP for Vaadin", shortName = "CSP for Vaadin",
-// enableInstallPrompt = false)
-@Theme(themeFolder = "cspforvaadin")
+//@Theme(themeFolder = "cspforvaadin")
 // Load the CSP injector script.
 @JsModule("./csp.js")
 public class MainView extends AppLayout {

@@ -1,8 +1,5 @@
 // Define nonce that webpack should use for separately loaded chunks
 const scriptElement = document.querySelector("script[nonce]");
-if (scriptElement) {
-  __webpack_nonce__ = scriptElement.nonce;
-}
 
 // Override the Function constructor with a version that uses inlined code if available 
 const originalFunction = window.Function;
@@ -12,21 +9,23 @@ window.Function = function(...args) {
   if (functions.has(key)) {
     return functions.get(key);
   }
-  
-  // In "training" mode, log expression to add to the map
-  if (!scriptElement) {
-    const code = args[args.length - 1];
-    // Ignore the stats gatherer which isn't used in production mode
-    if (code.indexOf("var StatisticsGatherer") == -1) {
-      const snippet = `functions.set("${key}",\n  function(${args.slice(0, -1).join(',')}) {${code}});`
-      console.warn(snippet);
-    }
+
+  if (key.startsWith("return window.Vaadin.Flow.loadOnDemand(")) {
+    var chunk = key.split("return window.Vaadin.Flow.loadOnDemand('").pop().split("');").pop();
+    return function (chunk) {return window.Vaadin.Flow.loadOnDemand(chunk);};
   }
-  
+
+  // In "training" mode, log expression to add to the map
+  const code = args[args.length - 1];
+  // Ignore the stats gatherer which isn't used in production mode
+  if (code.indexOf("var StatisticsGatherer") == -1) {
+    const snippet = `functions.set("${key}",\n  function(${args.slice(0, -1).join(',')}) {${code}});`
+    console.warn(snippet);
+  }
+
   // Fall back to the original constructor (seem to be fine not use it as a constructor)
   return originalFunction.apply(null, args)
 }
-
 
 // Inlined versions of all the functions that would otherwise have to be evaled
 const functions = new Map();
@@ -60,4 +59,25 @@ functions.set("$0,this.scrollPositionHandlerAfterServerNavigation($0);",
   function($0) {this.scrollPositionHandlerAfterServerNavigation($0);});
 functions.set("$0,document.title = $0",
   function($0) {document.title = $0});
-  
+functions.set("$0,    document.title = $0;\n    if(window?.Vaadin?.documentTitleSignal) {\n        window.Vaadin.documentTitleSignal.value = $0;\n    }\n",
+  function($0) {    document.title = $0;
+    if(window?.Vaadin?.documentTitleSignal) {
+      window.Vaadin.documentTitleSignal.value = $0;
+    }
+  });
+functions.set("$0,return (async function() { this._shouldSetInvalid = function (invalid) { return false };}).apply($0)",
+    function($0) {return (async function() { this._shouldSetInvalid = function (invalid) { return false };}).apply($0)});
+functions.set("$0,$1,return (async function() { this.serverConnected($0)}).apply($1)",
+    function($0,$1) {return (async function() { this.serverConnected($0)}).apply($1)});
+functions.set("$0,$1,$2,return (async function() { this.$server['}p']($0, true, $1)}).apply($2)",
+    function($0,$1,$2) {return (async function() { this.$server['}p']($0, true, $1)}).apply($2)});
+functions.set("$0,return $0.requestContentUpdate()",
+    function($0) {return $0.requestContentUpdate()});
+functions.set("$0,return (async function() { Vaadin.FlowComponentHost.patchVirtualContainer(this)}).apply($0)",
+    function($0) {return (async function() { Vaadin.FlowComponentHost.patchVirtualContainer(this)}).apply($0)});
+functions.set("$0,$1,return (async function() { this.renderer = (root) => {  if (this.text) {    root.textContent = this.text;  } else {    Vaadin.FlowComponentHost.setChildNodes($0, this.virtualChildNodeIds, root)  }}}).apply($1)",
+    function($0,$1) {return (async function() { this.renderer = (root) => {  if (this.text) {    root.textContent = this.text;  } else {    Vaadin.FlowComponentHost.setChildNodes($0, this.virtualChildNodeIds, root)  }}}).apply($1)});
+functions.set("$0,return $0.requestContentUpdate()",
+    function($0) {return $0.requestContentUpdate()});
+functions.set("binder,return function ($0){ return binder.apply(this,arguments); }",
+    function(binder) {return function ($0){ return binder.apply(this,arguments); }});
