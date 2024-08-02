@@ -29,6 +29,22 @@ window.Function = function(...args) {
   return originalFunction.apply(null, args)
 }
 
+const originalEval = window.eval;
+window.eval = function(script) {
+  if (evalCalls.has(script)) {
+    evalCalls.get(script).apply(null, null);
+  } else {
+    const snippet = `evalCalls.set("${script}",\n  function() {${script}});`
+    console.warn(snippet);
+    // Fall back to original eval function
+    originalEval.apply(null, script);
+  }
+}
+
+// Inlined versions of functions corresponding to eval calls
+const evalCalls = new Map();
+// TODO
+
 // Inlined versions of all the functions that would otherwise have to be evaled
 const functions = new Map();
 functions.set("$0,$0.addEventListener('items-changed', function(){ this.$server.updateSelectedTab(true); });",
