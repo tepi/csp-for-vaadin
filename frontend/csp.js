@@ -155,3 +155,5 @@ functions.set("$0,$1,$2,return $0.$connector.clear($1,$2)",
     function($0,$1,$2) {return $0.$connector.clear($1,$2)});
 functions.set("$0,$1,window.dispatchEvent(new CustomEvent('vaadin-navigate', { detail: { state: $0, url: $1, replace: false } }));",
     function($0,$1) {window.dispatchEvent(new CustomEvent('vaadin-navigate', { detail: { state: $0, url: $1, replace: false } }));});
+functions.set("$0,$1,window.dispatchEvent(new CustomEvent('vaadin-navigate', { detail: { state: $0, url: $1, replace: true } }));",
+    function($0,$1) {window.dispatchEvent(new CustomEvent('vaadin-navigate', { detail: { state: $0, url: $1, replace: true } }));});
