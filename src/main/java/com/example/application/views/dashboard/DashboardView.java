@@ -24,7 +24,6 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.theme.lumo.LumoUtility.BoxSizing;
 import com.vaadin.flow.theme.lumo.LumoUtility.FontSize;
 import com.vaadin.flow.theme.lumo.LumoUtility.FontWeight;
@@ -106,6 +105,11 @@ public class DashboardView extends Main {
         PlotOptionsAreaspline plotOptions = new PlotOptionsAreaspline();
         plotOptions.setPointPlacement(PointPlacement.ON);
         plotOptions.setMarker(new Marker(false));
+
+        Tooltip tooltip = new Tooltip();
+        tooltip.setFormatter("'The value for <b>' + this.x + '</b> is <b>' + this.y + '</b>'");
+        conf.setTooltip(tooltip);
+
         conf.addPlotOptions(plotOptions);
 
         conf.addSeries(new ListSeries("Berlin", 189, 191, 291, 396, 501, 403, 609, 712, 729, 942, 1044, 1247));
@@ -174,6 +178,10 @@ public class DashboardView extends Main {
         series.add(new DataSeriesItem("System 5", 12.5));
         series.add(new DataSeriesItem("System 6", 12.5));
         conf.addSeries(series);
+
+        Tooltip tooltip = new Tooltip();
+        tooltip.setFormatter("function() {return 'The value is <b>' + this.y + '</b>'}");
+        conf.setTooltip(tooltip);
 
         // Add it all together
         VerticalLayout serviceHealth = new VerticalLayout(header, chart);

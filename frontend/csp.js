@@ -1,7 +1,4 @@
-// Define nonce that webpack should use for separately loaded chunks
-const scriptElement = document.querySelector("script[nonce]");
-
-// Override the Function constructor with a version that uses inlined code if available 
+// Override the Function constructor with a version that uses inlined code if available
 const originalFunction = window.Function;
 window.Function = function(...args) {
   const key = args.join(",");
@@ -11,11 +8,9 @@ window.Function = function(...args) {
   }
 
   if (key.startsWith("return window.Vaadin.Flow.loadOnDemand(")) {
-    var chunk = key.split("return window.Vaadin.Flow.loadOnDemand('").pop().split("');").pop();
+    const chunk = key.split("return window.Vaadin.Flow.loadOnDemand('").pop().split("');").pop();
     return function (chunk) {return window.Vaadin.Flow.loadOnDemand(chunk);};
   }
-
-  
 
   // In "training" mode, log expression to add to the map
   const code = args[args.length - 1];
@@ -31,19 +26,34 @@ window.Function = function(...args) {
 
 const originalEval = window.eval;
 window.eval = function(script) {
+  const originalArg = script;
+  // Removes parenthesis used by Vaadin Charts
+  if (script.length > 1 && script.substring(0, 1) === "(" && script.substring(script.length - 1) === ")") {
+    script = script.substring(1, script.length - 1);
+  }
   if (evalCalls.has(script)) {
-    evalCalls.get(script).apply(null, null);
+    return evalCalls.get(script);
   } else {
-    const snippet = `evalCalls.set("${script}",\n  function() {${script}});`
+    let snippet = "";
+    if (script.startsWith("function")) {
+      snippet = `evalCalls.set("${script}",\n  ${script});`
+    } else {
+      snippet = `evalCalls.set("${script}",\n  function() {return ${script}});`
+    }
     console.warn(snippet);
+
     // Fall back to original eval function
-    originalEval.apply(null, script);
+    originalEval.apply(null, originalArg);
   }
 }
 
 // Inlined versions of functions corresponding to eval calls
 const evalCalls = new Map();
-// TODO
+// Examples from Tooltip formatter in DashboardView
+evalCalls.set("'The value for <b>' + this.x + '</b> is <b>' + this.y + '</b>'",
+    function() {return 'The value for <b>' + this.x + '</b> is <b>' + this.y + '</b>'});
+evalCalls.set("function() {return 'The value is <b>' + this.y + '</b>'}",
+    function() {return 'The value is <b>' + this.y + '</b>'});
 
 // Inlined versions of all the functions that would otherwise have to be evaled
 const functions = new Map();
@@ -137,3 +147,11 @@ functions.set("$0,window.Vaadin.Flow.selectConnector.initLazy($0)",
     function($0) {window.Vaadin.Flow.selectConnector.initLazy($0)});
 functions.set("$0,$1,$2,return $0.updateConfiguration($1,$2)",
     function($0,$1,$2) {return $0.updateConfiguration($1,$2)});
+functions.set("event,element,return (element.querySelector(':scope > [slot=\"primary\"]').style.flexBasis)",
+    function(event,element) {return (element.querySelector(':scope > [slot="primary"]').style.flexBasis)});
+functions.set("event,element,return (element.querySelector(':scope > [slot=\"secondary\"]').style.flexBasis)",
+    function(event,element) {return (element.querySelector(':scope > [slot="secondary"]').style.flexBasis)});
+functions.set("$0,$1,$2,return $0.$connector.clear($1,$2)",
+    function($0,$1,$2) {return $0.$connector.clear($1,$2)});
+functions.set("$0,$1,window.dispatchEvent(new CustomEvent('vaadin-navigate', { detail: { state: $0, url: $1, replace: false } }));",
+    function($0,$1) {window.dispatchEvent(new CustomEvent('vaadin-navigate', { detail: { state: $0, url: $1, replace: false } }));});
