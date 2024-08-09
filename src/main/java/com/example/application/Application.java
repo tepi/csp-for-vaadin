@@ -27,7 +27,7 @@ public class Application extends SpringBootServletInitializer {
     }
 
     private static void injectCspNonce(IndexHtmlResponse response) {
-        // Use CSP only in production mode since dev mode uses eval()
+        // Use CSP only in production mode
         if (!response.getVaadinRequest().getService().getDeploymentConfiguration().isProductionMode()) {
             return;
         }
@@ -37,7 +37,7 @@ public class Application extends SpringBootServletInitializer {
 
         // Add a header to make the browser require the nonce in all script tags
         response.getVaadinResponse().setHeader("Content-Security-Policy",
-                "script-src 'nonce-" + nonce + "' 'strict-dynamic'");
+                "script-src 'nonce-" + nonce + "'");
 
         // Add the nonce to all script tags in the host page
         response.getDocument().getElementsByTag("script").attr("nonce", nonce);
